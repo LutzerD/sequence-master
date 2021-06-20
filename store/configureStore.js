@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
-import rootReducer from './rootReducer';
+import { rootReducer } from '../memorize/reducers';
 
 const configureStore = (initialState) => {
-  return createStore(rootReducer, initialState);
+  return createStore(rootReducer,initialState );
 };
 
 export default configureStore;
