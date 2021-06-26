@@ -7,6 +7,7 @@ export const INTRO_END = "[MEMORIZE] INTRO_END";
 
 export const INTRO_MODE = "[MEMORIZE] INTRO_MODE"
 export const RECITE_MODE = "[MEMORIZE] RECITE_MODE"
+export const HOME_MODE = "[MEMORIZE] HOME_MODE"
 
 export const introNextNumber = () => ({
   type: INTRO_NEXT_NUMBER,

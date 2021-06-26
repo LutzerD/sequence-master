@@ -3,6 +3,8 @@ import {
   RECITE_NEXT_NUMBER,
   RECITE_START,
   INTRO_END,
+  INTRO_START,
+  HOME_MODE,
 } from "../constants/actions";
 
 const newNumber = () => {
@@ -13,27 +15,46 @@ const newNumber = () => {
 
 let initialValue = newNumber();
 export const initialState = {
-  number: {
-    current: initialValue,
-    history: [initialValue],
-  },
+  number: initialValue,
+  history: [initialValue],
   targetScore: 5,
   settings: {
     tts: false,
   },
   currentScore: 5,
-  mode: RECITE_MODE,
+  mode: HOME_MODE,
 };
 
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECITE_NEXT_NUMBER: {
-      const newState = {...state}
+      const newState = { ...state }; //For whatever reason, this is required.
       const nextNumber = newNumber();
-      newState.number.current = newNumber();
-      newState.number.history.push(nextNumber);
-      newState.currentScore+=1;
-      newState.targetScore+=1;
+      newState.number = newNumber();
+      newState.history.push(nextNumber);
+      newState.currentScore += 1;
+      newState.targetScore = 5;
+      return newState;
+    }
+    case HOME_MODE:{
+      return {
+        ...state,
+        mode: HOME_MODE
+      };  
+    }
+    case INTRO_START:{
+      console.log("starto?")
+      return { 
+        ...state,
+        currentScore: 1,
+        history: [],
+        mode: RECITE_MODE,
+      }; 
+    }
+    case INTRO_END: {
+      const newState = { ...state }; //For whatever reason, this is required.
+      newState.currentScore = 1;
+      newState.history = [];
       return newState;
     }
     default: {
