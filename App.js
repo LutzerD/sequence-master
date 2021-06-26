@@ -4,12 +4,16 @@ import { Provider } from "react-redux";
 import MemorizeContainer from "./memorize/memorize-container";
 import { initialState } from "./memorize/reducers/reducer";
 import configureStore from "./store/configureStore";
-const store = configureStore(initialState);
+import { PersistGate } from "redux-persist/integration/react";
+
+const { store, persistor } = configureStore(initialState);
 
 export default function App() {
   return (
     <Provider store={store}>
-      <MemorizeContainer />
+      <PersistGate loading={null} persistor={persistor}>
+        <MemorizeContainer />
+      </PersistGate>
     </Provider>
   );
 }
