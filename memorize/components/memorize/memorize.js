@@ -24,6 +24,7 @@ const MemorizeComponent = (props) => {
     // Speech.speak(number) //TODO: enable if you want to hear the number.
   });
 
+  console.log("component", number)
   return (
     <View style={styles.centerChildren}>
       <View style={styles.centerChildren, styles.score}>

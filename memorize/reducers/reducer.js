@@ -25,59 +25,16 @@ export const initialState = {
   mode: RECITE_MODE,
 };
 
-export const memorizeReducer = (state = initialState, action) => {
+export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECITE_NEXT_NUMBER: {
-      if (typeof(state) == "number"){
-        state = {
-          history: []
-        }
-      }
+      const newState = {...state}
       const nextNumber = newNumber();
-      state.current = newNumber();
-      state.history.push(nextNumber);
-      return state;
-    }
-    default: {
-      return state;
-    }
-  }
-};
-export const modeReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case RECITE_START: {
-    }
-    default: {
-    }
-  }
-};
-export const Reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case RECITE_NEXT_NUMBER: {
-      return newNumber();
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-export const targetScoreReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case RECITE_NEXT_NUMBER: {
-      return newNumber();
-    }
-    case INTRO_END: {
-    }
-    default: {
-      return state;
-    }
-  }
-};
-export const currentScoreReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case RECITE_NEXT_NUMBER: {
-      return state > 0 ? state + 1 : 1;
+      newState.number.current = newNumber();
+      newState.number.history.push(nextNumber);
+      newState.currentScore+=1;
+      newState.targetScore+=1;
+      return newState;
     }
     default: {
       return state;

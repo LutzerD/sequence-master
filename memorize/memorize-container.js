@@ -3,10 +3,9 @@ import MemorizeComponent from "./components/memorize/memorize";
 
 const mapStateToProps = (state) => {
   return (state) => {
+    console.log(state)
     return { 
-      number: state.number,
-      currentScore: state.currentScore,
-      settings: state.settings,
+      ...state
      };
   };
 };
