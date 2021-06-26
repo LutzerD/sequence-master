@@ -11,9 +11,9 @@ const { store, persistor } = configureStore(initialState);
 export default function App() {
   return (
     <Provider store={store}>
-      {/* <PersistGate loading={null} persistor={persistor}> */}
+      <PersistGate loading={null} persistor={persistor}>
         <RouterContainer />
-      {/* </PersistGate> */}
+      </PersistGate>
     </Provider>
   );
 }

@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { INTRO_END, RECITE_NEXT_NUMBER } from "../../constants/actions";
+import { RECITE_END, RECITE_NEXT_NUMBER } from "../constants/actions";
 import * as Speech from "expo-speech";
-import { Interval } from "./Interval";
 import styles from "./styles";
+import Interval from "./Interval";
 
 const ReviewComponent = (props) => {
-  const { number, currentScore, targetScore, settings } = props;
-  if (settings.tts) {
-    useEffect(() => {
-      Speech.speak(number); //TODO: enable if you want to hear the number.
-    });
-  }
+  const { number } = props;
 
   function onRepeat() {
-    if (currentScore >= targetScore) {
-      props.dispatch({ type: INTRO_END });
+    if (number.historyIndex + 1 >= number.history.length) {
+      props.dispatch({ type: RECITE_END });
     } else {
       props.dispatch({ type: RECITE_NEXT_NUMBER });
     }
@@ -24,11 +19,12 @@ const ReviewComponent = (props) => {
   return (
     <View style={styles.centerChildren}>
       <View style={(styles.centerChildren, styles.score)}>
-        <Text style={styles.score}>{currentScore}</Text>
+      <Text style={styles.score}>Target: {number.targetScore}</Text>
+        <Text style={styles.score}>Current: {number.historyIndex + 1}</Text>
       </View>
       <Interval repeat={() => onRepeat()} interval={1000}></Interval>
       <View style={styles.centerChildren}>
-        <Text style={styles.display}>{number}</Text>
+        <Text style={styles.display}>{number.current}</Text>
       </View>
     </View>
   );

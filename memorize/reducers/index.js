@@ -1,10 +1,10 @@
-// import { combineReducers } from "redux";
-// import { memorizeReducer, currentScoreReducer, targetScoreReducer, modeReducer } from "./reducer";
+import { miniSerializeError } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+import { modeReducer, numberReducer, settingsReducer } from "./reducer";
 
-// // Root Reducer
-// export const rootReducer = combineReducers({
-//   targetScore: targetScoreReducer,
-//   currentScore: currentScoreReducer,
-//   number: memorizeReducer,
-//   // mode: modeReducer,
-// });
+// Root Reducer
+export const rootReducer = combineReducers({
+  number: numberReducer,
+  mode: modeReducer,
+  settings: settingsReducer,
+});
