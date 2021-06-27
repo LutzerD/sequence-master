@@ -4,6 +4,7 @@ import { INTRO_NEXT_NUMBER, RECITE_START } from "../constants/actions";
 import * as Speech from "expo-speech";
 import styles from "./styles";
 import Interval from "./interval";
+import Environment from "../../environment";
 
 const IntroComponent = (props) => {
   const { number, settings } = props;
@@ -14,7 +15,6 @@ const IntroComponent = (props) => {
   }
 
   function onRepeat() {
-    console.log(number.currentScore, number.targetScore)
     if (number.currentScore >= number.targetScore) {
       props.dispatch({ type: RECITE_START });
     } else {
@@ -25,10 +25,11 @@ const IntroComponent = (props) => {
   return (
     <View style={styles.centerChildren}>
       <View style={(styles.centerChildren, styles.score)}>
-        <Text style={styles.score}>Target: {number.targetScore}</Text>
-        <Text style={styles.score}>Current: {number.currentScore}</Text>
+        <Text style={styles.score}>
+          {number.currentScore}/{number.targetScore}
+        </Text>
       </View>
-      <Interval repeat={() => onRepeat()} interval={1000}></Interval>
+      <Interval repeat={() => onRepeat()} interval={Environment.prod ? 0.5 : 2000}></Interval>
       <View style={styles.centerChildren}>
         <Text style={styles.display}>{number.current}</Text>
       </View>

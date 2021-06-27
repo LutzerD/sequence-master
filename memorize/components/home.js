@@ -8,7 +8,7 @@ const HomeComponent = (props) => {
   return (
     <View style={styles.centerChildren}>
       <Button
-        title="Starto"
+        title="Start"
         onPress={() => props.dispatch({ type: INTRO_START })}
       ></Button>
     </View>

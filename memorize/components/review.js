@@ -12,6 +12,7 @@ import NumberKeyboard from "./keyboard";
 
 const ReviewComponent = (props) => {
   const { number } = props;
+  const [displayedNumbers, setDisplayedNumbers] = useState(""); //used to ensure that the loop continues if no state change occurs.
 
   function scoreInput(text) {
     if (text && text.length == 1) {
@@ -27,19 +28,34 @@ const ReviewComponent = (props) => {
         props.dispatch({ type: RECITE_COMPLETE_FAIL });
       }
     }
-    return ""
+    return "";
   }
+
+  const display_length = 4;
+  useEffect(() => {
+    let newVal = displayedNumbers;
+    if (number.historyIndex > display_length) {
+      newVal = number.history
+        .slice(number.historyIndex - display_length, number.historyIndex)
+        .join("");
+    } else {
+      newVal = number.history.slice(0, number.historyIndex).join("");
+    }
+
+    if (newVal != displayedNumbers) {
+      setDisplayedNumbers(newVal);
+    }
+  }, [number.historyIndex]);
 
   return (
     <View style={styles.centerChildren}>
-      <Text>Review?</Text>
-
       <View style={(styles.centerChildren, styles.score)}>
-        <Text style={styles.score}>Target: {number.targetScore}</Text>
-        <Text style={styles.score}>Current: {number.historyIndex + 1}</Text>
+        <Text style={styles.score}>
+          {number.historyIndex}/{number.targetScore}
+        </Text>
       </View>
       <View style={styles.centerChildren}>
-        <Text style={styles.display}>{number.current}</Text>
+        <Text style={styles.display}>{displayedNumbers}</Text>
       </View>
       <NumberKeyboard updateText={scoreInput} />
     </View>

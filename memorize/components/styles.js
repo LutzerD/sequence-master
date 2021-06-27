@@ -7,12 +7,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
   },
+  row: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
   invisible: {
     opacity: 0,
   },
   score: {
     padding: 8,
-    fontSize: 30,
+    fontSize: 50,
   },
   display: {
     paddingVertical: 8,

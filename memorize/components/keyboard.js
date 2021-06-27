@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   Keyboard,
 } from "react-native";
+import Environment from "../../environment";
 import styles from "./styles";
-
 export const WatchedKeyboard = (props) => {
   const setKeyboardVisible = props.setKeyboardVisible;
   useEffect(() => {
@@ -33,7 +33,7 @@ export const WatchedKeyboard = (props) => {
   return (
     <TextInput
       autoFocus={true}
-      style={props.invisible ? styles.invisible : null}
+      style={Environment.prod ? styles.invisible : null}
       onChangeText={(text) => props.onChangeText(text)}
       editable
       keyboardType="numeric"
@@ -51,7 +51,6 @@ export const NumberKeyboard = (props) => {
   function updateText(newText) {
     if (props.updateText){
         const newval = props.updateText(newText, text)
-        console.log(newval)
         setText(newval)
     }else{
         setText(newText)

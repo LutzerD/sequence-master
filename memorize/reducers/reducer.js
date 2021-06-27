@@ -1,3 +1,4 @@
+import Environment from "../../environment";
 import {
   RECITE_NEXT_NUMBER,
   RECITE_START,
@@ -20,7 +21,6 @@ import {
 
 const newNumber = () => {
   const r = Math.floor(Math.random() * 10);
-  console.log(r);
   return r;
 };
 
@@ -48,14 +48,17 @@ export const numberReducer = (state = initialState, action) => {
     }
     case INTRO_NEXT_NUMBER: {
       const nextNumber = newNumber();
-      newState.current = newNumber();
+      newState.current = nextNumber;
       newState.history.push(nextNumber);
       newState.currentScore += 1;
       return newState;
     }
     case RECITE_START: {
       newState.historyIndex = -1;
-      // newState.targetScore = 5; //TODO: Remove this for prod
+      console.log(newState.history)
+      if (!Environment.prod){
+        newState.targetScore = 5; 
+      }
     }
     case RECITE_NEXT_NUMBER: {
       newState.historyIndex += 1;
@@ -69,8 +72,10 @@ export const numberReducer = (state = initialState, action) => {
     }
     case RECITE_COMPLETE_SUCCESS: {
       newState.targetScore += 1;
-      if (newState.targetScore > 7) {
-        newState.targetScore = 7;
+      if (!Environment.prod){
+        if (newState.targetScore > 7) { 
+          newState.targetScore = 7;
+        }
       }
       return newState;
     }

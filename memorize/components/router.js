@@ -7,7 +7,6 @@ import ReviewContainer from "../review-container";
 import { FAIL_SCREEN, HOME_SCREEN, INTRO_SCREEN, RECITE_SCREEN, SUCCESS_SCREEN } from "../constants/screens";
 
 const RouterComponent = (props) => {
-  console.log(props.screen)
   switch (props.screen) {
     case INTRO_SCREEN:{
       return <IntroContainer />;
