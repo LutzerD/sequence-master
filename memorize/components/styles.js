@@ -7,6 +7,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
   },
+  invisible: {
+    opacity: 0,
+  },
   score: {
     padding: 8,
     fontSize: 30,

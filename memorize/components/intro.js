@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { HOME_MODE, INTRO_END, INTRO_NEXT_NUMBER, RECITE_START } from "../constants/actions";
+import { INTRO_NEXT_NUMBER, RECITE_START } from "../constants/actions";
 import * as Speech from "expo-speech";
 import styles from "./styles";
-import Interval from "./Interval";
+import Interval from "./interval";
 
 const IntroComponent = (props) => {
   const { number, settings } = props;
   if (settings.tts) {
     useEffect(() => {
-      Speech.speak(number); //TODO: enable if you want to hear the number.
+      Speech.speak(number); //TODO: settings / enable if you want to hear the number.
     });
   }
 

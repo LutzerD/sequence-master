@@ -1,34 +1,14 @@
+export const RECITE_COMPLETE_FAIL = "[MEMORIZE] RECITE_COMPLETE_FAIL";
+export const RECITE_COMPLETE_SUCCESS = "[MEMORIZE] RECITE_COMPLETE_SUCCESS";
 export const RECITE_NEXT_NUMBER = "[MEMORIZE] RECITE_NEXT_NUMBER";
 export const RECITE_START = "[MEMORIZE] RECITE_START";
-export const RECITE_END = "[MEMORIZE] RECITE_END";
+
 export const INTRO_START = "[MEMORIZE] INTRO_START";
 export const INTRO_NEXT_NUMBER = "[MEMORIZE] INTRO_NEXT_NUMBER";
 export const INTRO_END = "[MEMORIZE] INTRO_END";
 
-export const INTRO_MODE = "[MEMORIZE] INTRO_MODE"
-export const RECITE_MODE = "[MEMORIZE] RECITE_MODE"
-export const HOME_MODE = "[MEMORIZE] HOME_MODE"
-
-export const introNextNumber = () => ({
-  type: INTRO_NEXT_NUMBER,
-});
-
-export const reciteNextNumber = () => ({
-  type: RECITE_NEXT_NUMBER,
-});
-
-export const reciteStart = () => ({
-  type: RECITE_START,
-});
-
-export const reciteEnd = () => ({
-  type: RECITE_END,
-});
-
-export const introStart = () => ({
-  type: INTRO_START,
-});
-
-export const introEnd = () => ({
-  type: INTRO_END,
-});
+export const GOTO_FAIL_SCREEN = "[MEMORIZE] GOTO_FAIL_SCREEN";
+export const GOTO_SUCCESS_SCREEN = "[MEMORIZE] GOTO_SUCCESS_SCREEN";
+export const GOTO_INTRO_SCREEN = "[MEMORIZE] GOTO_INTRO_SCREEN";
+export const GOTO_HOME_SCREEN = "[MEMORIZE] GOTO_HOME_SCREEN";
+export const GOTO_RECITE_SCREEN = "[MEMORIZE] GOTO_RECITE_SCREEN";

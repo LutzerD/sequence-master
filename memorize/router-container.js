@@ -3,7 +3,7 @@ import RouterComponent from "./components/router";
 const mapStateToProps = (state) => {
   return (state) => {
     return {
-      mode: state.mode,
+      screen: state.screen,
     };
   };
 };

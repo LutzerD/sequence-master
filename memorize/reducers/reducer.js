@@ -1,14 +1,22 @@
 import {
-  RECITE_MODE,
   RECITE_NEXT_NUMBER,
   RECITE_START,
   INTRO_END,
   INTRO_START,
-  HOME_MODE,
   INTRO_NEXT_NUMBER,
-  RECITE_END,
-  INTRO_MODE,
+  RECITE_COMPLETE_SUCCESS,
+  RECITE_COMPLETE_FAIL,
+  GOTO_HOME_SCREEN,
+  GOTO_INTRO_SCREEN,
+  GOTO_RECITE_SCREEN,
 } from "../constants/actions";
+import {
+  FAIL_SCREEN,
+  HOME_SCREEN,
+  INTRO_SCREEN,
+  RECITE_SCREEN,
+  SUCCESS_SCREEN,
+} from "../constants/screens";
 
 const newNumber = () => {
   const r = Math.floor(Math.random() * 10);
@@ -28,11 +36,11 @@ export const initialState = {
   settings: {
     tts: false,
   },
-  mode: HOME_MODE,
+  screen: HOME_SCREEN,
 };
 
 export const numberReducer = (state = initialState, action) => {
-  const newState = { ...state }; 
+  const newState = { ...state };
   switch (action.type) {
     case INTRO_START: {
       newState.currentScore = 0;
@@ -46,15 +54,24 @@ export const numberReducer = (state = initialState, action) => {
       return newState;
     }
     case RECITE_START: {
-      newState.historyIndex = -1; 
-    } 
+      newState.historyIndex = -1;
+      // newState.targetScore = 5; //TODO: Remove this for prod
+    }
     case RECITE_NEXT_NUMBER: {
-      newState.historyIndex+=1;
+      newState.historyIndex += 1;
       newState.current = newState.history[newState.historyIndex];
       return newState;
     }
-    case RECITE_END: {
-      newState.targetScore = newState.historyIndex + 1 >= newState.currentScore  ?  newState.targetScore + 1 : newState.currentScore - 1;
+    case RECITE_COMPLETE_FAIL: {
+      newState.targetScore =
+        newState.targetScore > 5 ? newState.targetScore - 1 : 5;
+      return newState;
+    }
+    case RECITE_COMPLETE_SUCCESS: {
+      newState.targetScore += 1;
+      if (newState.targetScore > 7) {
+        newState.targetScore = 7;
+      }
       return newState;
     }
     default: {
@@ -63,20 +80,24 @@ export const numberReducer = (state = initialState, action) => {
   }
 };
 
-
-export const modeReducer = (state = initialState, action) => {
+export const screenReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RECITE_END:
-    case HOME_MODE: {
-      return HOME_MODE;
+    case RECITE_COMPLETE_SUCCESS: {
+      return SUCCESS_SCREEN;
     }
-    case INTRO_START: {
-      console.log("swit")
-      return INTRO_MODE;
+    case RECITE_COMPLETE_FAIL: {
+      return FAIL_SCREEN;
+    }
+    case GOTO_HOME_SCREEN: {
+      return HOME_SCREEN;
+    }
+    case INTRO_START:
+    case GOTO_INTRO_SCREEN: {
+      return INTRO_SCREEN;
     }
     case RECITE_START:
-    case INTRO_END: {
-      return RECITE_MODE;
+    case GOTO_RECITE_SCREEN: {
+      return RECITE_SCREEN;
     }
     default: {
       return state;
