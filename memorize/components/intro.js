@@ -11,8 +11,7 @@ const IntroComponent = (props) => {
   if (settings.tts || !Environment.prod) {
     useEffect(() => {
       const char = '' + number.current
-      console.log(char, typeof(char))
-      Speech.speak(char); //TODO: settings / enable if you want to hear the number.
+      Speech.speak(char);
     });
   }
 
