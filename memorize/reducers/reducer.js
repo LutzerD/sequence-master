@@ -49,13 +49,12 @@ export const numberReducer = (state = initialState, action) => {
     case INTRO_NEXT_NUMBER: {
       const nextNumber = newNumber();
       newState.current = nextNumber;
-      newState.history.push(nextNumber);
+      newState.history = [...newState.history, nextNumber];
       newState.currentScore += 1;
       return newState;
     }
     case RECITE_START: {
       newState.historyIndex = -1;
-      console.log(newState.history)
       if (!Environment.prod){
         newState.targetScore = 5; 
       }

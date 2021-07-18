@@ -8,9 +8,11 @@ import Environment from "../../environment";
 
 const IntroComponent = (props) => {
   const { number, settings } = props;
-  if (settings.tts) {
+  if (settings.tts || !Environment.prod) {
     useEffect(() => {
-      Speech.speak(number); //TODO: settings / enable if you want to hear the number.
+      const char = '' + number.current
+      console.log(char, typeof(char))
+      Speech.speak(char); //TODO: settings / enable if you want to hear the number.
     });
   }
 
@@ -29,7 +31,7 @@ const IntroComponent = (props) => {
           {number.currentScore}/{number.targetScore}
         </Text>
       </View>
-      <Interval repeat={() => onRepeat()} interval={Environment.prod ? 0.5 : 2000}></Interval>
+      <Interval repeat={() => onRepeat()} interval={Environment.prod ? 2000 : 500}></Interval>
       <View style={styles.centerChildren}>
         <Text style={styles.display}>{number.current}</Text>
       </View>
