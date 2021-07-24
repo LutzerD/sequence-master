@@ -5,6 +5,7 @@ import { initialState } from "./memorize/reducers/reducer";
 import configureStore from "./store/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import RouterContainer from "./memorize/router-container";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const { store, persistor } = configureStore(initialState);
 
@@ -25,4 +26,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+});
+
+EStyleSheet.build({
+  $textColor: '#0275d8'
 });

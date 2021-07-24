@@ -32,7 +32,7 @@ const IntroComponent = (props) => {
 
   return (
     <View style={styles.centerChildren}>
-      <View style={(styles.centerChildren, styles.score)}>
+      <View style={styles.centerChildren}>
         <Text style={styles.score}>
           {number.currentScore}/{number.targetScore}
         </Text>

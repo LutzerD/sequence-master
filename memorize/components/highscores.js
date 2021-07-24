@@ -1,13 +1,24 @@
 import React from "react";
-import { View, Text } from "react-native";
-import styles from "./styles";
+import { Text } from "react-native";
+import { TableColumns } from "./table";
+
 
 export const HighScores = ({ highScores }) => {
   highScores = highScores || [];
-  console.log(highScores);
-  return highScores.map((highScore, index) => (
-    <View key={index.toString()} style={styles.row}>
-      <Text>{index+1}. {highScore.score} {highScore.date}</Text>
-    </View>
-  ));
+  console.log("weeha");
+
+  highScores = [
+    ["#", "Score", "Date"],
+    ...highScores.map((highScore, index) => [
+      index + 1,
+      highScore.score,
+      highScore.date,
+    ]),
+  ];
+  
+  return (
+    <Text style={{ flex: 1 }}>
+      <TableColumns data={highScores} flex={[1, 3, 3]} />
+    </Text>
+  );
 };

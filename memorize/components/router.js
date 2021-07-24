@@ -1,9 +1,8 @@
 import React from "react";
-import FailComponent from "./fail";
-import SuccessComponent from "./success";
 import IntroContainer from "../intro-container";
 import HomeContainer from "../home-container";
 import ReviewContainer from "../review-container";
+import FinishContainer from "../finish-container";
 import { FAIL_SCREEN, HOME_SCREEN, INTRO_SCREEN, RECITE_SCREEN, SUCCESS_SCREEN } from "../constants/screens";
 
 const RouterComponent = (props) => {
@@ -14,12 +13,9 @@ const RouterComponent = (props) => {
     case RECITE_SCREEN: {
       return <ReviewContainer />;
     }
-    case FAIL_SCREEN: {
-      return <FailComponent />;
-    }
-    case SUCCESS_SCREEN: {
-      return <SuccessComponent />;
-    }
+    case FAIL_SCREEN: 
+    case SUCCESS_SCREEN: 
+      return <FinishContainer />;
     case HOME_SCREEN:
     default: {
       console.log("home?")

@@ -11,6 +11,7 @@ import {
   GOTO_INTRO_SCREEN,
   GOTO_RECITE_SCREEN,
 } from "../constants/actions";
+import { MAX_HIGHSCORES } from "../constants/config";
 import {
   FAIL_SCREEN,
   HOME_SCREEN,
@@ -74,6 +75,7 @@ export const numberReducer = (state = initialState, action) => {
       return newState;
     }
     case RECITE_COMPLETE_SUCCESS: {
+      newState.historyIndex += 1;
       newState.completions = newState.completions ? newState.completions+ 1 : 1;
       newState.targetScore += 1;
       if (!Environment.prod) {
@@ -97,11 +99,13 @@ export const numberReducer = (state = initialState, action) => {
             return newState;
           }else if (highScore.score < highScores) {
             newState.highScores.splice(index + 1, 0, highScore);
+            newState.highScores = newState.highScores.splice(0, MAX_HIGHSCORES)
             return newState;
           }
         }
         
         newState.highScores.splice(0, 0, highScore);
+        newState.highScores = newState.highScores.splice(0, MAX_HIGHSCORES)
       }
       return newState;
     }
