@@ -11,18 +11,34 @@ import Interval from "./interval";
 import NumberKeyboard from "./keyboard";
 
 const ReviewComponent = (props) => {
-  const { number } = props;
+  const { number, settings } = props;
   const [displayedNumbers, setDisplayedNumbers] = useState(""); //used to ensure that the loop continues if no state change occurs.
+  const [spoken, setSpoken] = useState(true);
 
+  function tts(){
+      if (settings.tts.review) {
+        Speech.stop();
+        const char = '' + number.current
+        Speech.speak(char);
+    }
+    setSpoken(true);
+  }
+
+  if (!spoken){
+    tts();
+  }
+  
   function scoreInput(text) {
     if (text && text.length == 1) {
       const expectedChar = number.history[number.historyIndex];
       if (text == expectedChar) {
         const complete = number.historyIndex + 1 >= number.history.length;
         if (complete) {
+          tts();
           props.dispatch({ type: RECITE_COMPLETE_SUCCESS });
         } else {
           props.dispatch({ type: RECITE_NEXT_NUMBER });
+          setSpoken(false);
         }
       } else {
         props.dispatch({ type: RECITE_COMPLETE_FAIL });

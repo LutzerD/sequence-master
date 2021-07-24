@@ -10,14 +10,21 @@ import {
   GOTO_HOME_SCREEN,
   GOTO_INTRO_SCREEN,
   GOTO_RECITE_SCREEN,
+  GOTO_SETTINGS,
+  GOTO_PREVIOUS,
+  RESET_HIGHSCORES,
+  REVIEW_TTS_TOGGLE,
+  INTRO_TTS_TOGGLE,
+  RESET_ALL,
 } from "../constants/actions";
-import { MAX_HIGHSCORES } from "../constants/config";
+import { MAX_HIGHSCORES, MIN_TARGET_SCORE, TTS_DEFAULT } from "../constants/config";
 import {
   DEFAULT_SCREEN,
   FAIL_SCREEN,
   HOME_SCREEN,
   INTRO_SCREEN,
   RECITE_SCREEN,
+  SETTINGS_SCREEN,
   SUCCESS_SCREEN,
 } from "../constants/screens";
 
@@ -32,14 +39,17 @@ export const initialState = {
     current: initialValue,
     history: [initialValue],
     highScores: [],
-    targetScore: 5,
-    currentScore: 5,
+    targetScore: MIN_TARGET_SCORE,
+    currentScore: MIN_TARGET_SCORE,
     historyIndex: 0,
     attempts: 0,
     completions: 0,
   },
   settings: {
-    tts: false,
+    tts: {
+      intro: TTS_DEFAULT,
+      review: TTS_DEFAULT,
+    },
   },
   screen: {
     current: HOME_SCREEN,
@@ -47,9 +57,21 @@ export const initialState = {
   },
 };
 
-export const numberReducer = (state = initialState, action) => {
+export const numberReducer = (state = initialState.number, action) => {
   const newState = { ...state };
   switch (action.type) {
+    case RESET_ALL: {
+      return initialState.number;
+    }
+    case RESET_HIGHSCORES: {
+      Object.assign(newState, {
+        ...initialState.number,
+        attempts: newState.attempts,
+        completions: newState.completions,
+      });
+      console.log(newState);
+      return newState;
+    }
     case INTRO_START: {
       newState.currentScore = 0;
       newState.history = [];
@@ -125,13 +147,15 @@ export const numberReducer = (state = initialState, action) => {
   }
 };
 
-export const screenReducer = (state = initialState, action) => {
+export const screenReducer = (state = initialState.screen, action) => {
   const newState = {
     ...state,
-    previous: state.current || DEFAULT_SCREEN,
   };
 
   switch (action.type) {
+    case RESET_ALL: {
+      break;//so e.g. if in settings, doesn't leave settings
+    }
     case RECITE_COMPLETE_SUCCESS: {
       newState.current = SUCCESS_SCREEN;
       break;
@@ -149,20 +173,44 @@ export const screenReducer = (state = initialState, action) => {
       newState.current = INTRO_SCREEN;
       break;
     }
+    case GOTO_SETTINGS: {
+      newState.current = SETTINGS_SCREEN;
+      break;
+    }
+    case GOTO_PREVIOUS: {
+      newState.current = newState.previous;
+      break;
+    }
     case RECITE_START:
     case GOTO_RECITE_SCREEN: {
       newState.current = RECITE_SCREEN;
       break;
     }
-    default: break;
+    default:
+      break;
+  }
+  if (newState.current !== state.current) {
+    newState.previous = state.current;
   }
   return newState;
 };
 
-export const settingsReducer = (state = initialState, action) => {
+export const settingsReducer = (state = initialState.settings, action) => {
+  const newState = { ...state };
   switch (action.type) {
-    default: {
-      return state;
+    case RESET_ALL: {
+      return initialState.settings;
     }
+    case INTRO_TTS_TOGGLE: {
+      newState.tts.intro = !newState.tts.intro;
+      break;
+    }
+    case REVIEW_TTS_TOGGLE: {
+      newState.tts.review = !newState.tts.review;
+      break;
+    }
+    default:
+      break;
   }
+  return newState;
 };

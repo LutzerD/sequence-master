@@ -7,15 +7,23 @@ import Interval from "./interval";
 import Environment from "../../environment";
 
 const IntroComponent = (props) => {
+  const [barOn, setBarOn] = useState(true);
+  const [spoken, setSpoken] = useState(false);
+  
   const { number, settings } = props;
-  if (settings.tts || !Environment.prod) {
-    useEffect(() => {
+  function tts(){
+    if (settings.tts.intro) {
+      Speech.stop();
       const char = '' + number.current
       Speech.speak(char);
-    });
+    }
+    setSpoken(true);
   }
   
-  const [barOn, setBarOn] = useState(true);
+
+  if (!spoken){
+    tts();
+  }
   
 
   function onRepeat() {
@@ -26,6 +34,7 @@ const IntroComponent = (props) => {
         props.dispatch({ type: RECITE_START });
       } else {
         props.dispatch({ type: INTRO_NEXT_NUMBER });
+        setSpoken(false);
       }
     }
   }

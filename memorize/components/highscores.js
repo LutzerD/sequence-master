@@ -4,6 +4,8 @@ import { TableColumns } from "./table";
 
 
 export const HighScores = ({ highScores }) => {
+  if (!highScores || !highScores.length) return null
+  
   highScores = highScores || [];
   console.log("weeha");
 

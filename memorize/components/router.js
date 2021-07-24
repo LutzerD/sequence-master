@@ -3,7 +3,8 @@ import IntroContainer from "../intro-container";
 import HomeContainer from "../home-container";
 import ReviewContainer from "../review-container";
 import FinishContainer from "../finish-container";
-import { FAIL_SCREEN, HOME_SCREEN, INTRO_SCREEN, RECITE_SCREEN, SUCCESS_SCREEN } from "../constants/screens";
+import SettingsContainer from "../settings-container";
+import { FAIL_SCREEN, HOME_SCREEN, INTRO_SCREEN, RECITE_SCREEN, SETTINGS_SCREEN, SUCCESS_SCREEN } from "../constants/screens";
 
 const RouterComponent = ({screen}) => {
   console.log(screen)
@@ -13,6 +14,9 @@ const RouterComponent = ({screen}) => {
     }
     case RECITE_SCREEN: {
       return <ReviewContainer />;
+    }
+    case SETTINGS_SCREEN: {
+      return <SettingsContainer />;
     }
     case FAIL_SCREEN: 
     case SUCCESS_SCREEN: 
