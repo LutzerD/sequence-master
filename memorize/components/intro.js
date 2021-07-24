@@ -14,12 +14,19 @@ const IntroComponent = (props) => {
       Speech.speak(char);
     });
   }
+  
+  const [barOn, setBarOn] = useState(true);
+  
 
   function onRepeat() {
-    if (number.currentScore >= number.targetScore) {
-      props.dispatch({ type: RECITE_START });
-    } else {
-      props.dispatch({ type: INTRO_NEXT_NUMBER });
+    console.log(barOn)
+    setBarOn(!barOn)
+    if(!barOn){
+      if (number.currentScore >= number.targetScore) {
+        props.dispatch({ type: RECITE_START });
+      } else {
+        props.dispatch({ type: INTRO_NEXT_NUMBER });
+      }
     }
   }
 
@@ -30,8 +37,11 @@ const IntroComponent = (props) => {
           {number.currentScore}/{number.targetScore}
         </Text>
       </View>
-      <Interval repeat={() => onRepeat()} interval={Environment.prod ? 2000 : 500}></Interval>
-      <View style={styles.centerChildren}>
+      <Interval repeat={() => onRepeat()} interval={Environment.prod ? 1000 : 250}></Interval>
+      <View style={styles.centerChildren,{
+        borderBottomColor: barOn ?  "black" : 'transparent',
+        borderBottomWidth: 5,
+      }}>
         <Text style={styles.display}>{number.current}</Text>
       </View>
     </View>

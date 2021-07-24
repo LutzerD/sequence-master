@@ -10,24 +10,22 @@ const FailComponent = (props) => {
 
   function onRepeat() {
     props.dispatch({ type: GOTO_HOME_SCREEN });
-  }
-
-  useEffect(() => {
     setProgress(
-      props.number.history.slice(0, props.number.historyIndex - 1).join("")
+      props.number.history.slice(0, props.number.historyIndex).join("")
     );
     setMissed(
-      props.number.history.slice(props.number.historyIndex - 1).join("")
+      props.number.history.slice(props.number.historyIndex).join("")
     );
-  }, []);
+  }
 
+  
   return (
     <View style={styles.centerChildren}>
       <View style={styles.centerChildren}>
         <Text style={styles.display}>{":("}</Text>
-        <View style={(styles.centerChildren, styles.row)}>
+        <View style={[styles.centerChildren, styles.row]}>
           <Text style={styles.score}>{progress}</Text>
-          <Text style={(styles.score, { color: "red" })}>{missed}</Text>
+          <Text style={[styles.score, { color: "red" }]}>{missed}</Text>
         </View>
         <Button
           title="OK"
