@@ -107,10 +107,7 @@ export const numberReducer = (state = initialState, action) => {
         let index = newState.highScores.length - 1;
         for (index = newState.highScores.length - 1; index >= 0; index--) {
           const highScores = newState.highScores[index].score;
-          console.log(highScore, highScores);
-          if (highScore.score == highScores) {
-            return newState;
-          } else if (highScore.score < highScores) {
+          if (highScore.score < highScores) {
             newState.highScores.splice(index + 1, 0, highScore);
             newState.highScores = newState.highScores.splice(0, MAX_HIGHSCORES);
             return newState;
