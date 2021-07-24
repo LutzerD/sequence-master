@@ -22,6 +22,7 @@ const RouterComponent = (props) => {
     }
     case HOME_SCREEN:
     default: {
+      console.log("home?")
       return <HomeContainer />;
     }
   }

@@ -29,9 +29,12 @@ export const initialState = {
   number: {
     current: initialValue,
     history: [initialValue],
+    highScores: [],
     targetScore: 5,
     currentScore: 5,
     historyIndex: 0,
+    attempts: 0,
+    completions: 0,
   },
   settings: {
     tts: false,
@@ -54,9 +57,10 @@ export const numberReducer = (state = initialState, action) => {
       return newState;
     }
     case RECITE_START: {
+      newState.attempts = newState.attempts ? newState.attempts+ 1 : 1;
       newState.historyIndex = -1;
-      if (!Environment.prod){
-        newState.targetScore = 5; 
+      if (!Environment.prod) {
+        newState.targetScore = 5;
       }
     }
     case RECITE_NEXT_NUMBER: {
@@ -65,16 +69,39 @@ export const numberReducer = (state = initialState, action) => {
       return newState;
     }
     case RECITE_COMPLETE_FAIL: {
-      newState.targetScore =
-        newState.targetScore > 5 ? newState.targetScore - 1 : 5;
+      newState.completions = newState.completions ? newState.completions+ 1 : 1;
+      newState.targetScore = newState.targetScore > 5 ? newState.targetScore - 1 : 5;
       return newState;
     }
     case RECITE_COMPLETE_SUCCESS: {
+      newState.completions = newState.completions ? newState.completions+ 1 : 1;
       newState.targetScore += 1;
-      if (!Environment.prod){
-        if (newState.targetScore > 7) { 
+      if (!Environment.prod) {
+        if (newState.targetScore > 7) {
           newState.targetScore = 7;
         }
+      }
+
+      const highScore = {
+        score: newState.history.length,
+        date: new Date().toLocaleDateString({ month: '2-digit', day: '2-digit', year: 'numeric', }),
+      }
+      if (!newState.highScores || !newState.highScores.length) {
+        newState.highScores = [highScore];
+      } else {
+        let index = newState.highScores.length - 1;
+        for (index = newState.highScores.length - 1; index >= 0; index--) {
+          const highScores = newState.highScores[index].score;
+          console.log(highScore, highScores)
+          if(highScore.score == highScores){
+            return newState;
+          }else if (highScore.score < highScores) {
+            newState.highScores.splice(index + 1, 0, highScore);
+            return newState;
+          }
+        }
+        
+        newState.highScores.splice(0, 0, highScore);
       }
       return newState;
     }

@@ -38,12 +38,14 @@ const IntroComponent = (props) => {
         </Text>
       </View>
       <Interval repeat={() => onRepeat()} interval={Environment.prod ? 1000 : 250}></Interval>
-      <View style={styles.centerChildren,{
+      <View style={{flex:1}}></View>
+      <View style={[styles.centerChildren,{
         borderBottomColor: barOn ?  "black" : 'transparent',
         borderBottomWidth: 5,
-      }}>
+      }]}>
         <Text style={styles.display}>{number.current}</Text>
       </View>
+      <View style={{flex:1}}></View>
     </View>
   );
 };

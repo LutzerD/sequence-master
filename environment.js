@@ -1,5 +1,5 @@
 const Environment = {
-    prod: true
+    prod: false
 }
 
 export default Environment

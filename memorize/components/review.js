@@ -33,6 +33,7 @@ const ReviewComponent = (props) => {
 
   const display_length = 4;
   useEffect(() => {
+    console.log(number.history)
     let newVal = displayedNumbers;
     if (number.historyIndex > display_length) {
       newVal = number.history
