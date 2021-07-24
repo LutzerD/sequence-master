@@ -13,6 +13,7 @@ import {
 } from "../constants/actions";
 import { MAX_HIGHSCORES } from "../constants/config";
 import {
+  DEFAULT_SCREEN,
   FAIL_SCREEN,
   HOME_SCREEN,
   INTRO_SCREEN,
@@ -40,7 +41,10 @@ export const initialState = {
   settings: {
     tts: false,
   },
-  screen: HOME_SCREEN,
+  screen: {
+    current: HOME_SCREEN,
+    previous: DEFAULT_SCREEN,
+  },
 };
 
 export const numberReducer = (state = initialState, action) => {
@@ -58,7 +62,7 @@ export const numberReducer = (state = initialState, action) => {
       return newState;
     }
     case RECITE_START: {
-      newState.attempts = newState.attempts ? newState.attempts+ 1 : 1;
+      newState.attempts = newState.attempts ? newState.attempts + 1 : 1;
       newState.historyIndex = -1;
       if (!Environment.prod) {
         newState.targetScore = 5;
@@ -70,13 +74,18 @@ export const numberReducer = (state = initialState, action) => {
       return newState;
     }
     case RECITE_COMPLETE_FAIL: {
-      newState.completions = newState.completions ? newState.completions+ 1 : 1;
-      newState.targetScore = newState.targetScore > 5 ? newState.targetScore - 1 : 5;
+      newState.completions = newState.completions
+        ? newState.completions + 1
+        : 1;
+      newState.targetScore =
+        newState.targetScore > 5 ? newState.targetScore - 1 : 5;
       return newState;
     }
     case RECITE_COMPLETE_SUCCESS: {
       newState.historyIndex += 1;
-      newState.completions = newState.completions ? newState.completions+ 1 : 1;
+      newState.completions = newState.completions
+        ? newState.completions + 1
+        : 1;
       newState.targetScore += 1;
       if (!Environment.prod) {
         if (newState.targetScore > 7) {
@@ -86,26 +95,30 @@ export const numberReducer = (state = initialState, action) => {
 
       const highScore = {
         score: newState.history.length,
-        date: new Date().toLocaleDateString({ month: '2-digit', day: '2-digit', year: 'numeric', }),
-      }
+        date: new Date().toLocaleDateString({
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        }),
+      };
       if (!newState.highScores || !newState.highScores.length) {
         newState.highScores = [highScore];
       } else {
         let index = newState.highScores.length - 1;
         for (index = newState.highScores.length - 1; index >= 0; index--) {
           const highScores = newState.highScores[index].score;
-          console.log(highScore, highScores)
-          if(highScore.score == highScores){
+          console.log(highScore, highScores);
+          if (highScore.score == highScores) {
             return newState;
-          }else if (highScore.score < highScores) {
+          } else if (highScore.score < highScores) {
             newState.highScores.splice(index + 1, 0, highScore);
-            newState.highScores = newState.highScores.splice(0, MAX_HIGHSCORES)
+            newState.highScores = newState.highScores.splice(0, MAX_HIGHSCORES);
             return newState;
           }
         }
-        
+
         newState.highScores.splice(0, 0, highScore);
-        newState.highScores = newState.highScores.splice(0, MAX_HIGHSCORES)
+        newState.highScores = newState.highScores.splice(0, MAX_HIGHSCORES);
       }
       return newState;
     }
@@ -116,28 +129,37 @@ export const numberReducer = (state = initialState, action) => {
 };
 
 export const screenReducer = (state = initialState, action) => {
+  const newState = {
+    ...state,
+    previous: state.current || DEFAULT_SCREEN,
+  };
+
   switch (action.type) {
     case RECITE_COMPLETE_SUCCESS: {
-      return SUCCESS_SCREEN;
+      newState.current = SUCCESS_SCREEN;
+      break;
     }
     case RECITE_COMPLETE_FAIL: {
-      return FAIL_SCREEN;
+      newState.current = FAIL_SCREEN;
+      break;
     }
     case GOTO_HOME_SCREEN: {
-      return HOME_SCREEN;
+      newState.current = HOME_SCREEN;
+      break;
     }
     case INTRO_START:
     case GOTO_INTRO_SCREEN: {
-      return INTRO_SCREEN;
+      newState.current = INTRO_SCREEN;
+      break;
     }
     case RECITE_START:
     case GOTO_RECITE_SCREEN: {
-      return RECITE_SCREEN;
+      newState.current = RECITE_SCREEN;
+      break;
     }
-    default: {
-      return state;
-    }
+    default: break;
   }
+  return newState;
 };
 
 export const settingsReducer = (state = initialState, action) => {

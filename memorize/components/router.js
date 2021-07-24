@@ -5,8 +5,9 @@ import ReviewContainer from "../review-container";
 import FinishContainer from "../finish-container";
 import { FAIL_SCREEN, HOME_SCREEN, INTRO_SCREEN, RECITE_SCREEN, SUCCESS_SCREEN } from "../constants/screens";
 
-const RouterComponent = (props) => {
-  switch (props.screen) {
+const RouterComponent = ({screen}) => {
+  console.log(screen)
+  switch (screen.current) {
     case INTRO_SCREEN:{
       return <IntroContainer />;
     }
@@ -18,7 +19,6 @@ const RouterComponent = (props) => {
       return <FinishContainer />;
     case HOME_SCREEN:
     default: {
-      console.log("home?")
       return <HomeContainer />;
     }
   }
